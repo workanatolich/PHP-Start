@@ -1,6 +1,6 @@
 <?php
 
-$arr = ['copy.txt', 'old.txt', 'dir/copy.txt'];
+$arr = ['1.txt', '2.txt', '3.txt'];
 foreach ($arr as $item) {
-    unlink($item);
+    var_dump(file_exists($item));
 }
