@@ -1,4 +1,6 @@
 <?php
 
-copy('old.txt', 'dir/copy.txt');
-echo file_get_contents('dir/copy.txt');
+$arr = ['copy.txt', 'old.txt', 'dir/copy.txt'];
+foreach ($arr as $item) {
+    unlink($item);
+}
