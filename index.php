@@ -1,3 +1,6 @@
 <?php
 
-echo file_get_contents('text.txt');
+$arr = ['1.txt', '2.txt'];
+foreach ($arr as $elem) {
+    file_put_contents("$elem", '');
+}
