@@ -1,9 +1,7 @@
 <?php
 
-mkdir('test');
+unlink('test/1.txt');
+unlink('test/2.txt');
+unlink('test/3.txt');
 
-$arr = ['1.txt', '2.txt', '3.txt'];
-
-foreach ($arr as $elem) {
-    file_put_contents('test/'.$elem, '');
-}
+rmdir('test');
