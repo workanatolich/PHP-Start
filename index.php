@@ -1,4 +1,9 @@
 <?php
 
-$sum = array_sum(file('test1.txt', FILE_IGNORE_NEW_LINES));
-file_put_contents('test1.txt', file_get_contents('test1.txt') .PHP_EOL .$sum);
+mkdir('test');
+
+$arr = ['1.txt', '2.txt', '3.txt'];
+
+foreach ($arr as $elem) {
+    file_put_contents('test/'.$elem, '');
+}
