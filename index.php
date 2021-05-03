@@ -1,20 +1,15 @@
 <?php
 
-function removeDir($dir) {
-    $files = array_diff(scandir($dir), ['.', '..']);
+session_start();
 
-    foreach ($files as $file) {
-        $path = $dir .'/' .$file;
-
-        if(is_dir($path)) {
-            removeDir($path);
-        }
-        else {
-            unlink($file);
-        }
-
-        rmdir($path);
-    }
+if(!isset($_SESSION['counter'])) {
+    $_SESSION['counter'] = 1;
+} else {
+    $_SESSION['counter'] += 1;
 }
 
-removeDir('dir');
+echo 'Cтраница обновилась ' .$_SESSION['counter'] .' раз';
+
+if($_SESSION['counter'] === 30) {
+    unset($_SESSION['counter']);
+}
