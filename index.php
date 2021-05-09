@@ -6,15 +6,14 @@ ini_set('display_errors', 'on');
 $host = 'database';
 $user = 'root';
 $password = 'test';
-$db_name = 'test';
+$db = 'test';
+$charset = 'utf8';
 
-$link = mysqli_connect($host, $user, $password, $db_name);
-mysqli_query($link, "SET NAMES 'utf8'");
-
+$pdo = new PDO("mysql:host=$host; dbname=$db; charset=$charset", $user, $password);
 $sql = "SELECT * FROM workers";
-$result = mysqli_query($link, $sql) or die(mysqli_error($link));
-
-for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row);
+$stmt = $pdo -> prepare($sql);
+$stmt -> execute();
+$data = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
 echo '<pre>';
 print_r($data);
