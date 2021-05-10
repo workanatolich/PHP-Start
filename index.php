@@ -11,7 +11,7 @@ $db_name = 'test';
 $link = mysqli_connect($host, $user, $password, $db_name);
 mysqli_query($link, "SET NAMES 'utf8'");
 
-$sql1 = "DELETE FROM workers WHERE id<20";
+$sql1 = "UPDATE workers SET name='Женя', salary='900' WHERE name='Вася'";
 mysqli_query($link, $sql1) or die(mysqli_error($link));
 
 
