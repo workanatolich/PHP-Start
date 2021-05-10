@@ -11,11 +11,11 @@ $db_name = 'test';
 $link = mysqli_connect($host, $user, $password, $db_name);
 mysqli_query($link, "SET NAMES 'utf8'");
 
-$sql1 = "SELECT * FROM workers ORDER BY age LIMIT 2,4 ";
+$sql1 = "SELECT COUNT(*) FROM workers WHERE salary=500";
 $result = mysqli_query($link, $sql1) or die(mysqli_error($link));
 
-for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row);
+$count = mysqli_fetch_object($result);
 
 echo '<pre>';
-print_r($data);
+print_r($count);
 echo '</pre>';
