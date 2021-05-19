@@ -4,12 +4,6 @@ $link = mysqli_connect('database', 'root', 'test', 'test')
 or die(mysqli_error($link));
 mysqli_query($link, "SET NAMES 'utf8'");
 
-if (isset($_GET['del'])) {
-    $del = $_GET['del'];
-    $sql = "DELETE FROM workers WHERE id=$del";
-    mysqli_query($link, $sql) or die(mysqli_error($link));
-}
-
 $sql = "SELECT * FROM workers ";
 $result = mysqli_query($link, $sql) or die(mysqli_error($link));
 
@@ -53,7 +47,7 @@ $result = mysqli_query($link, $sql) or die(mysqli_error($link));
                         $result .= '<td>' .$elem['name'] . '</td>';
                         $result .= '<td>' .$elem['age'] . '</td>';
                         $result .= '<td>' .$elem['salary'] . '</td>';
-                        $result .= '<td><a href ="?del='.$elem['id'].'">Click</a></td>';
+                        $result .= '<td><a href ="delete.php?del='.$elem['id'].'">Click</a></td>';
 
                         $result .= '</tr>';
                     }
