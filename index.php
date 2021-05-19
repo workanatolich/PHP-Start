@@ -4,60 +4,40 @@ $link = mysqli_connect('database', 'root', 'test', 'test')
 or die(mysqli_error($link));
 mysqli_query($link, "SET NAMES 'utf8'");
 
-$sql = "SELECT * FROM workers ";
+if(isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+$notesOfPage = 3;
+$from = ($page-1) * $notesOfPage;
+
+$sql = "SELECT * FROM workers LIMIT $from,$notesOfPage";
 $result = mysqli_query($link, $sql) or die(mysqli_error($link));
+for($data=[]; $row=mysqli_fetch_assoc($result); $data[] = $row);
 
-?>
+echo '<pre>';
+print_r($data);
+echo '</pre>';
 
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <title>Title</title>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Salary</th>
-                    <th scope="col">Delete</th>
-                </tr>
-                </thead>
+$sql = "SELECT COUNT(*) as count FROM workers";
+$result = mysqli_query($link, $sql) or die(mysqli_error($link));
+$count = mysqli_fetch_assoc($result)['count'];
+$pages = ceil($count/$notesOfPage);
 
-                <tbody>
-                  <?php
-                    for($data=[]; $row=mysqli_fetch_assoc($result); $data[] = $row);
-                    $result = '';
 
-                    foreach($data as $elem) {
-                        $result .= '<tr>';
+if($page != 1) {
+    $prevPage = $page - 1;
+    echo "<a href=\"?page=$prevPage\"><<</a> ";
+}
 
-                        $result .= '<th scope="row">' .$elem['id'] . '</th>';
-                        $result .= '<td>' .$elem['name'] . '</td>';
-                        $result .= '<td>' .$elem['age'] . '</td>';
-                        $result .= '<td>' .$elem['salary'] . '</td>';
-                        $result .= '<td><a href ="delete.php?del='.$elem['id'].'">Click</a></td>';
+for($i = 1; $i <= $pages; $i++) {
+    echo "<a href=\"?page=$i\">$i</a> ";
+}
 
-                        $result .= '</tr>';
-                    }
-                    echo $result;?>
-                </tbody>
-            </table>
-            <a href="add.php" class="btn btn-primary">Add a worker</a>
-        </div>
-    </div>
-</div>
-
-</body>
-</html>
+if($page != $pages) {
+    $nextPage = $page + 1;
+    echo "<a href=\"?page=$nextPage\">>></a> ";
+}
