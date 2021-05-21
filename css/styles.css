@@ -16,6 +16,9 @@
 .date{
 	font-weight: bold;
 }
+.disabled {
+	display: none;
+}
 .name{
 	font-size: 12pt;
 }
@@ -29,3 +32,4 @@ textarea.form-control{
 	text-align: justify;
 	
 }
+
