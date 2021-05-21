@@ -1,108 +1,58 @@
-<?php
-
-$pdo = new PDO("mysql:host=database; dbname=test; charset=utf8", 'root', 'test');
-
-
-// Pagination
-$sql = "SELECT COUNT(*) as count FROM workers";
-$sth = $pdo -> prepare($sql);
-$sth -> execute();
-$count = $sth -> fetch(PDO::FETCH_ASSOC)['count'];
-
-$notesOnPage = 5;
-$pages = ceil($count / $notesOnPage);
-
-
-if(isset($_GET['page'])) {
-    $page = $_GET['page'];
-} else {
-    $page = 1;
-}
-
-$from = ($page-1) * $notesOnPage;
-
-
-
-$sql = "SELECT * FROM workers LIMIT $from,$notesOnPage";
-$sth = $pdo -> prepare($sql);
-$sth -> execute();
-$data = $sth -> fetchAll(PDO::FETCH_ASSOC);
-
-
-
-?>
-
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <title>Practice</title>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-md">
-            <h1>All workers</h1>
-            <a href="add.php" class="btn btn-primary">Add a worker</a>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Age</th>
-                        <th scope="col">Salary</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php foreach($data as $value) : ?>
-                    <tr>
-                        <th scope="col"><?= $value['id'] ?></th>
-                        <td><?= $value['name']?></td>
-                        <td><?= $value['age']?></td>
-                        <td><?= $value['salary']?></td>
-                        <td>
-                            <a href="edit.php?id=<?= $value['id']?>" class="btn btn-warning">Edit</a>
-                            <a href="delete.php?id=<?= $value['id']?>" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                <?php endforeach;?>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>
-
-                            <?php
-
-                            if($page !== 1) {
-                                $prevPage = $page - 1;
-                                echo "<a href=\"?page=$prevPage?>\"><<</a> ";
-                            }
-
-                            for($i = 1; $i <= $pages; $i++) {
-                                echo "<a href=\"?page=$i\">$i</a> ";
-                            }
-
-                            if($page !== $pages) {
-                                $nextPage = $page + 1;
-                                echo "<a href=\"?page=$nextPage?>\">>></a> ";
-                            }
-
-                            ?>
-
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-</div>
-
-
-
-
-</body>
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">  
+		<title>Гостевая книга</title>
+		<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="css/styles.css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Гостевая книга</h1>
+			<div class="note">
+				<p>
+					<span class="date">18.04.2014 23:59:59</span>
+					<span class="name">Дмитрий</span>
+				</p>
+				<p>
+					Lorem ipsum dolor sit amet, 
+					consectetur adipiscing elit. 
+					Nulla efficitur elementum lorem id venenatis. 
+					Nullam id sagittis urna, eu ultrices risus. 
+					Duis ante lorem, semper nec fringilla eu,
+					commodo vel mauris. Nunc tristique odio lectus, eget condimentum nunc consectetur eu. Nullam non varius nisl, aliquet fringilla lectus. Aliquam erat volutpat. Ut vel mi et lectus hendrerit ornare vel ut neque. Quisque venenatis nisl eu mi
+				</p>
+			</div>	
+			<div class="note">
+				<p>
+					<span class="date">16.04.2014 14:59:59</span>
+					<span class="name">Николай</span>
+				</p>
+				<p>
+					Ut varius commodo fringilla. Nullam id pulvinar odio. Pellentesque gravida aliquam ipsum, et malesuada neque molestie eget. Vestibulum sagittis finibus efficitur. Donec sit amet aliquet dolor, vitae ornare tortor. Etiam eget augue nec diam vehicula bibendum. Nulla quis erat lacus. Vestibulum quis mattis augue. Praesent dignissim, justo non aliquam feugiat, lorem metus egestas leo, quis eleifend odio quam in ex. Aenean diam est, scelerisque ac ultricies sit amet, vulputate in tortor. Etiam ac mi enim. Sed pellentesque elementum erat eu eleifend. Integer imperdiet sem eu magna feugiat, sed efficitur velit convallis. 
+				</p>
+			</div>
+			<div class="note">
+				<p>
+					<span class="date">15.04.2014 12:59:59</span>
+					<span class="name">Петр</span>
+				</p>
+				<p>
+					Phasellus gravida fermentum pellentesque. Aenean non neque mollis nisl dapibus eleifend. Sed interdum dui nec dictum elementum. Proin eget semper dolor, ut commodo nibh. 
+					Quisque vitae pharetra ligula. Sed dictum, sem sed pellentesque aliquam, tellus sapien dapibus magna, eu suscipit lacus augue sed velit. Ut vehicula sagittis nulla, et aliquet elit. Quisque tincidunt sem nibh, finibus dictum nisl vulputate quis. In vitae nisl et lacus pulvinar ornare id ac libero. Morbi pharetra fringilla erat ut lacinia. 
+				</p>
+			</div>	
+			<div class="info alert alert-info">
+				Запись успешно сохранена!
+			</div>
+			<div id="form">
+				<form action="#form" method="POST">
+					<p><input class="form-control" placeholder="Ваше имя"></p>
+					<p><textarea class="form-control" placeholder="Ваш отзыв"></textarea></p>
+					<p><input type="submit" class="btn btn-info btn-block" value="Сохранить"></p>
+				</form>
+			</div>
+		</div>
+	</body>
 </html>
+
