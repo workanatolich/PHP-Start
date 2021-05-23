@@ -5,7 +5,7 @@ ini_set('display_errors', 'on');
 if(isset($_GET['page'])) {
     $page = $_GET['page'];
 } else {
-    $page = 'index';
+    $page = '/';
 }
 
 $pdo = new PDO('mysql:host=database; dbname=guestBook; charset=utf8', 'root', 'test');
