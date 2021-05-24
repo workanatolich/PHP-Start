@@ -17,7 +17,10 @@
 
     <div class="row">
         <div class="col-md-12">
-            <main><?= $content ?></main>
+            <main>
+                <?= $info ?>
+                <?= $content ?>
+            </main>
         </div>
     </div>
 
